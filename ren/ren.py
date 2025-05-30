@@ -3,6 +3,7 @@ import glob
 import os.path
 import re
 from .formatter import format_impl
+from .emoji import replace_emoji
 from .logging import color, init_logging, log
 from .options import parse_args, Options
 
@@ -57,9 +58,7 @@ def rename(src: str, args: Options, i: int):
         re_file = re_file.translate(trans)
 
     if args.emoji is not None:
-        # TODO: this covers many, but not all Emoji.
-        emoji_pattern = r"[\U00010000-\U0010ffff]"
-        re_file = re.sub(emoji_pattern, args.emoji, re_file)
+        re_file = replace_emoji(re_file, args.emoji)
 
     if args.strip is not None:
         re_file = re_file.strip(args.strip)

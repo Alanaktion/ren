@@ -1,9 +1,11 @@
 import os
 from setuptools import setup
 
+
 def check_file(f):
     path = os.path.join(os.path.dirname(__file__), f)
     return os.path.exists(path)
+
 
 # TODO: run completion build: scripts/completion*.py automatically
 # TODO: make sure this actually bundles the files

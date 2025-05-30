@@ -1,7 +1,6 @@
-from .logging import log
-
 try:
     import gallery_dl.formatter as formatter
+    from .logging import log
 
     def format_impl(format_str: str, *args, **kwargs: dict[str, str | int]):
         if '{}' in format_str:
