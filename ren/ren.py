@@ -64,6 +64,15 @@ def rename(src: str, args: Options, i: int):
     if args.strip is not None:
         re_file = re_file.strip(args.strip)
 
+    if args.lower:
+        re_file = re_file.lower()
+
+    if args.slug:
+        trans = str.maketrans('_"*:<>?|/\\', '-' * 10)
+        re_file = re_file.translate(trans).lower().strip()
+        re_file = re.sub(r'[\s-]+', '-', re_file)
+        re_file = '.'.join(p.strip('-') for p in re_file.split('.'))
+
     root, ext = os.path.splitext(re_file)
     kwargs = {
         "i": i,

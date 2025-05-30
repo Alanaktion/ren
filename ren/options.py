@@ -17,6 +17,8 @@ class Options(Namespace):
     full_width: bool
     emoji: str | None
     strip: str | None
+    lower: bool
+    slug: bool
     dry_run: bool
     interactive: bool
     # sort: str
@@ -90,6 +92,10 @@ def build_parser():
                         help='replace emoji characters')
     format.add_argument('-s', '--strip', metavar='CHARS', type=str,
                         help='remove leading/trailing characters')
+    format.add_argument('-l', '--lower', action='store_true',
+                        help='convert to lowercase')
+    format.add_argument('-S', '--slug', action='store_true',
+                        help='convert to lowercase+hypens for ws/special char')
     format.add_argument('-f', '--format', default='{fullname}',
                         help='Python format string to rename to, see '
                         'https://docs.python.org/3.11/library/string.html'
