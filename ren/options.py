@@ -21,6 +21,7 @@ class Options(Namespace):
     slug: bool
     dry_run: bool
     interactive: bool
+    conflicts: str
     # sort: str
     # desc: bool
     log_level: int
@@ -64,6 +65,9 @@ def build_parser():
                        help='list changes but do not rename anything')
     group.add_argument('-i', '--interactive', action='store_true',
                        help='prompt before each rename operation')
+    group.add_argument('-c', '--conflicts', default='stop',
+                       choices=('stop', 'skip', 'replace', 'force-replace'),
+                       help='how to handle conflicting names')
 
     # parser.add_argument('-s', '--sort', choices=['name', 'date', 'size'],
     #                     metavar='ATTR')

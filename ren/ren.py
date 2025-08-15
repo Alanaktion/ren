@@ -1,7 +1,8 @@
 import datetime
 import glob
-import os.path
+import os
 import re
+import shutil
 from .formatter import format_impl
 from .emoji import replace_emoji
 from .logging import color, init_logging, log
@@ -102,7 +103,20 @@ def rename(src: str, args: Options, i: int):
     prefix = os.path.dirname(dest)
     if common != prefix and not os.path.isdir(prefix):
         os.makedirs(prefix)
-    os.rename(src, dest)
+    try:
+        os.rename(src, dest)
+    except OSError:
+        if args.conflicts == 'continue':
+            return
+        if args.conflicts in ('replace', 'force-replace'):
+            if os.path.isdir(dest):
+                if args.conflicts == 'force-replace':
+                    shutil.rmtree(dest)
+                else:
+                    os.rmdir(dest)
+            else:
+                os.remove(dest)
+            os.rename(src, dest)
 
 
 if __name__ == "__main__":
