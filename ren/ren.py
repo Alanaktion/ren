@@ -22,6 +22,10 @@ def main():
         if os.path.isdir(f):
             log.debug('Directory: %s', f)
             for g in glob.glob(pattern, root_dir=f, recursive=args.recursive):
+                if args.suffix is not None:
+                    ext = os.path.splitext(g)[1].lstrip('.')
+                    if ext != args.suffix.lstrip('.'):
+                        continue
                 fg = os.path.join(f, g)
                 if os.path.isdir(fg):
                     log.debug('Subdirectory: %s', g)

@@ -11,6 +11,8 @@ class Options(Namespace):
     recursive: bool
     directories: bool
     glob: str
+    suffix: str | None
+    conflicts: str
     regex: tuple[str, str] | None
     translate: tuple[str, str] | None
     windows: int | None
@@ -21,7 +23,6 @@ class Options(Namespace):
     slug: bool
     dry_run: bool
     interactive: bool
-    conflicts: str
     # sort: str
     # desc: bool
     log_level: int
@@ -59,15 +60,17 @@ def build_parser():
                         help='rename directories within a specified directory')
     parser.add_argument('-g', '--glob', default='*',
                         help='only rename items matching the glob pattern')
+    parser.add_argument('-x', '--suffix',
+                        help='only rename items with the specified suffix')
+    parser.add_argument('-c', '--conflicts', default='stop',
+                       choices=('stop', 'skip', 'replace', 'force-replace'),
+                       help='how to handle conflicting names')
 
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-d', '--dry-run', action='store_true',
                        help='list changes but do not rename anything')
     group.add_argument('-i', '--interactive', action='store_true',
                        help='prompt before each rename operation')
-    group.add_argument('-c', '--conflicts', default='stop',
-                       choices=('stop', 'skip', 'replace', 'force-replace'),
-                       help='how to handle conflicting names')
 
     # parser.add_argument('-s', '--sort', choices=['name', 'date', 'size'],
     #                     metavar='ATTR')
